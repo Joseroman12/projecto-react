@@ -5,57 +5,56 @@ import {
         MenuButton,
         MenuList,
         MenuItem,
-        Flex, Box, Spacer, Img
+        Flex, Box, Spacer, Image
 
       } from '@chakra-ui/react'
-      import CartWidget from "./CartWidget"
+      import CartWidget from "./CartWidghet"
+import { Link } from "react-router-dom"
 
-      
-
-
-const NavBar = () => {
+const NavBar = ({productos}) => {
     return (
-        <div>
+    <div>
 
-        
-           <Flex>
-             <Box p='4'>
-                 <h3>Indumentaria St.Marie</h3>
-             </Box>
-             <Spacer />
-             <Box p='4'>
-                   
-            <Menu>
-                <MenuButton>
-                 Categorias
-                </MenuButton>
-                <MenuList>
-                <MenuItem>Categoria A</MenuItem>
-                <MenuItem>Cayegoria B</MenuItem>
-                <MenuItem>Cayegoria C</MenuItem>
-    
-                </MenuList>
-            </Menu>
-             </Box>
-             <Spacer />
-             <Box p='4' >
-                <CartWidget />
-             </Box>
-           </Flex>
+        <Flex >
+        <Box p='4'>
 
-           <div className="navbar"> 
-      <h1>Informacion de mis articulos</h1>
-      <h3>jose roman</h3>
+            <Link to={'/'}>
+            <h3>Indumentaria St.Marie</h3>
+            </Link>
 
+        </Box>
+        <Spacer />
+        <Box p='4'>
 
-    </div>
-
-
-   
-
-    
-        </div>
+        <Menu>
+            <MenuButton>
+            Categorias
+            </MenuButton>
+            <MenuList>
+        {
+            productos.map((p) =>{
+                return(
+                <> 
+                    <MenuItem key={p.id} >
+                        <Link to={'/item/'+p.id}>
+                        <h3>Categoria {p.categoria}</h3>
+                        </Link>
+                    </MenuItem>
+                </>
+                )
+            })
+        }
+        </MenuList>
+        </Menu>
+    </Box>
+    <Spacer />
+    <Box p='4' >
+        <Link to={'/Cart'}>
+            <CartWidget />
+        </Link>
+    </Box>
+    </Flex>
+    </div >
     )
-    
 }
 export default NavBar
