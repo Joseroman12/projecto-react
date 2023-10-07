@@ -1,50 +1,36 @@
-import React, { useState } from "react";
-import { Button, Stack, Box } from "@chakra-ui/react";
+import { useState } from "react"
+import '../components/estilos/Contador.css'
 
+const ItemsCount = ({  initial, onAdd }) => {
+  const [cantidad, setCantidad] = useState(initial)
 
-const ItemCount = () => {
-  const [contador, setContador] = useState(0);
-
-
-
-
-  return (
-   <>
-       <Stack direction={["column", "row"]} spacing="24px">
-        <Box w="40px" h="40px">
-
-            <Button size="xs" onClick={() => setContador(contador + 1)}>
-                +
-            </Button>
-
-        </Box>
-
-        <Box w="40px" h="40px" > 
-
-        <p>{contador}</p>
-
-        </Box>
-         
-         <Box w="40px" h="40px">
-
-            <Button size="xs" onClick={() => setContador(contador - 1)}>
-                -
-                
-            </Button>
-
-         </Box>
-
-         <Box>
-            <Button onClick={() => alert('cantidad agregada: '+ parseInt(contador))}>agregar al carrito</Button>
-         </Box>
-
-       </Stack>
-   
-   </>
-    
-  )
-
+  const suma = () => {
+    if (cantidad) {
+      setCantidad(cantidad + 1)
+    }
   }
 
+  const resta = () => {
+    if (cantidad > 1) {
+      setCantidad(cantidad - 1)
+    }
+  }
 
-export default ItemCount;
+  return (
+    <>
+
+      <div className="Contador">
+
+      <button onClick={suma}>+</button>
+        <p>{cantidad} </p>
+        <button onClick={resta}>-</button>
+     
+
+      </div>
+
+      <button onClick={() => onAdd(cantidad)} >Agregar al carrito</button>
+    </>
+  )
+}
+
+export default ItemsCount

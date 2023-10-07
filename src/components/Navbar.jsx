@@ -1,60 +1,39 @@
-import React from "react"
-import {
-    
-        Menu,
-        MenuButton,
-        MenuList,
-        MenuItem,
-        Flex, Box, Spacer, Image
+import React from 'react';
+import { Link } from 'react-router-dom';
+import '../components/estilos/navbar.css'
+import CartWidget from './CartWidget';
+import { Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 
-      } from '@chakra-ui/react'
-      import CartWidget from "./CartWidghet"
-import { Link } from "react-router-dom"
-
-const NavBar = ({productos}) => {
-    return (
-    <div>
-
-        <Flex >
-        <Box p='4'>
-
-            <Link to={'/'}>
-            <h3>Indumentaria St.Marie</h3>
-            </Link>
-
-        </Box>
-        <Spacer />
-        <Box p='4'>
-
-        <Menu>
-            <MenuButton>
-            Categorias
-            </MenuButton>
+const NavBar = () => {
+  return (
+    <nav className='navbar'>
+      <div className='logo'>
+        <Link to="/">indumentarias st.marie</Link>
+      </div>
+      <ul className='links'>
+        <li>
+          <Menu>
+            <MenuButton className='link-dropdown'>Productos</MenuButton>
             <MenuList>
-        {
-            productos.map((p) =>{
-                return(
-                <> 
-                    <MenuItem key={p.id} >
-                        <Link to={'/item/'+p.id}>
-                        <h3>Categoria {p.categoria}</h3>
-                        </Link>
-                    </MenuItem>
-                </>
-                )
-            })
-        }
-        </MenuList>
-        </Menu>
-    </Box>
-    <Spacer />
-    <Box p='4' >
-        <Link to={'/Cart'}>
-            <CartWidget />
-        </Link>
-    </Box>
-    </Flex>
-    </div >
-    )
-}
-export default NavBar
+              <MenuItem color="black">
+                <Link to={`/categoria/${"babuchas"}`}>babuchas</Link>
+              </MenuItem>
+              
+              <MenuItem color="black">
+                <Link to={`/categoria/${"pantalon"}`}>pantalon</Link>
+              </MenuItem>
+              <MenuItem color="black">
+                <Link to={`/categoria/${"buzos"}`}>buzos</Link>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </li>
+      </ul>
+      <Link to="/cart">
+        <CartWidget />
+      </Link>
+    </nav>
+  );
+};
+
+export default NavBar;

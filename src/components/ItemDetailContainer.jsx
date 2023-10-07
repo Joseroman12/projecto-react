@@ -1,38 +1,48 @@
-import React from 'react'
-import ItemDetail from './ItemDetail';
+import { useState,useEffect } from "react"
+import ItemDetail from "./ItemDetail"
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+
+import { useParams } from "react-router-dom"
+import Loader from "./Loader"
 
 
+const ItemDetailCotainer = () => {
+  const {id} = useParams()
+  const [producto, setProducto] = useState([])
 
-const ItemDetailContainer = ({productos}) => {
-   
-
-
-// const getProductos = new Promise ((resolve, reject) =>{
-//     if (productos.length > 0) {
-//         setTimeout(() =>{
-//             resolve(productos)
-//         }, 2000)
-//     } else {
-//         reject(new Error("no hay datos"))
-//     }
-// })
-
-// getProductos
-// .then((res) =>{ 
-// })
-// .catch((error) => {
-//     console.log(error)
-// })
-
-return (
-    <>  
-       <ItemDetail
-        productos={productos}
-       />
-
+  useEffect(()=>{
+    const db = getFirestore()
     
-    </>
-)
+    const itemsCollection = collection(db, "indumentarias")
+    getDocs(itemsCollection).then((snapshot)=>   {
+    const docs = snapshot.docs.map((doc) => {
+      return {...doc.data(), id: doc.id};
+    });
+    setProducto(docs)
+     })
+  }, [])
 
+
+  
+
+  
+  
+  
+  const productoFiltrado = producto.filter((producto) => producto.id == id)
+  
+  return (
+    <div>
+        {
+        productoFiltrado.length > 0 ?
+        productoFiltrado.map(p => {
+          return(
+            <ItemDetail producto={p} key={p.id}/>
+            )
+          })
+          : <Loader/>
+        }
+    </div>
+  )
 }
-export default ItemDetailContainer
+
+export default ItemDetailCotainer

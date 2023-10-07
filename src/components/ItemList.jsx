@@ -1,20 +1,19 @@
-import React from "react";
-import Item from './Item';
+import Item from "./Item"
+import Loader from "../components/Loader"
+import '../components/estilos/item.css'
 
 const ItemList = ({ productos }) => {
-    return (
-        <div>
-            {
-                productos.map((p) =>{
-                    return(
-                        <> 
-                        <Item product={p} key={p.id} />
-                        </>
-                    )
-                })
-            }
-        </div>
-    )
-};
 
-export default ItemList;
+  const loading = []
+  
+    return (
+      <div  className="container">
+         {
+        loading ? <Item productos={productos}/> : <Loader/>
+      }
+          
+      </div> 
+    )
+}
+
+export default ItemList

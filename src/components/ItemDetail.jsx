@@ -1,51 +1,58 @@
-import React from 'react';
-import { Card, CardHeader, CardBody, CardFooter, Heading, Text, Button, Center } from '@chakra-ui/react';
-import ItemCount from './ItemCount';
-import { useParams } from 'react-router-dom';
+import { Card, Stack, Text, Heading, Divider, CardBody, CardFooter, Button, Image} from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
+import ItemsCount from './ItemCount'
+import { useContext, useState } from 'react'
+import { CartContext } from '../Context/CartContext'
 
-const ItemDetail = ({ productos })=> {
-    const {id} = useParams ()
-    const filteredProducts = productos.filter((productos) => productos.id == id)
-    
+const ItemDetail = ({ producto }) => {
 
-   
+    const { agregarAlCart } = useContext(CartContext)
 
-
-
- 
+    const [irAlCart, setIrAlCart] = useState(false)
 
 
+    const onAdd = (cantidad) => {
+        setIrAlCart(true);
+        if (typeof agregarAlCart === 'function') {
+            agregarAlCart(producto, cantidad);
+        }
+    };
 
-    return (
-        <div>
-              {filteredProducts.map((p) => {
-           {/* {productos.map((p) =>*/}
-                return (
-                    <div> 
-                        <Center p='1rem'  key={p.id}>
+    return (       <div>
 
-                    <Card>  
-                        <CardHeader>
-                            <Heading gsize='md'>{p.nombre}</Heading>
-                        </CardHeader>
-                        <CardBody>
-                            <text>{p.description}</text>
-                            <text>{p.category}</text>
-                        </CardBody>
-                        <CardFooter>
-                            <ItemCount />
-                        </CardFooter>
-            
-                    </Card>     
+            <div key={producto.id}>
+                <Card maxW='sm'>
+                    <CardBody>
+                        <Image 
+                            src={producto.imagen}
+                            alt='Green double couch with wooden legs'
 
-                    </Center>     
-                    </div>
+                        />
 
+                        <Stack mt='6' spacing='3'>
+                            <Heading size='md'> {producto.nombre} </Heading>
+                            <Text>
+                                {producto.descripcion}
+                            </Text>
+                            <Text>
+                                {producto.category}
+                            </Text>
+                            <Text color='#ff66b2' fontSize='2xl'>
+                                {producto.precio}
+                            </Text>
+                        </Stack>
+                    </CardBody>
+                    <Divider />
+                    <CardFooter gap='15'>
 
-                )
-            })}
-        </div>
-    )
+                        {
+                            irAlCart ? <Link to='/cart'> <Button colorScheme="#ff66b2" marginLeft='80px'>Terminar Compra del producto</Button></Link> : <ItemsCount initial={1} onAdd={onAdd} />
+                        }
+                   </CardFooter>
+                </Card>
+            </div>
+     </div>
+   )
+}
 
- }
-export default React.memo(ItemDetail);
+export default ItemDetail
